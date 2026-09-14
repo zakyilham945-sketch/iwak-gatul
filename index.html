@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#145b46">
+  <title>Iwak Gatul — Fresh Fish Market</title>
+  <style>
+    :root {
+      --green: #176b52;
+      --green-dark: #104b3a;
+      --mint: #eaf4ee;
+      --bg: #f6f8f5;
+      --text: #20352d;
+      --muted: #75837c;
+      --line: #e3eae5;
+      --white: #fff;
+      --orange: #f0a34c;
+      --shadow: 0 12px 30px rgba(22, 65, 48, .07);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid #8bc8ad;
+      outline-offset: 2px;
+    }
+    .container { width: min(1160px, 92%); margin: auto; }
+    .topline { background: var(--green-dark); color: #e7f4ed; font-size: 12px; padding: 8px 0; }
+    .topline .container { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    header { position: sticky; top: 0; z-index: 5; background: rgba(255,255,255,.96); border-bottom: 1px solid var(--line); backdrop-filter: blur(10px); }
+    .navbar { min-height: 76px; display: flex; align-items: center; gap: 22px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 850; white-space: nowrap; }
+    .logo-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 14px; background: var(--green); color: white; font-size: 23px; }
+    .search { flex: 1; position: relative; min-width: 100px; }
+    .search input { width: 100%; border: 1px solid var(--line); border-radius: 13px; padding: 13px 15px 13px 42px; outline-color: var(--green); background: #f9fbf9; }
+    .search span { position: absolute; left: 14px; top: 10px; font-size: 19px; color: var(--muted); }
+    .btn { border: 0; border-radius: 12px; padding: 12px 16px; background: var(--green); color: white; font-weight: 750; }
+    .btn:hover { background: var(--green-dark); }
+    .btn.secondary { background: var(--mint); color: var(--green-dark); }
+    .btn.secondary:hover { background: #dcece3; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .hero {
+      margin: 28px 0; border-radius: 26px; overflow: hidden; color: white;
+      background: linear-gradient(115deg, #104b3a 0%, #176b52 58%, #459879 100%);
+      display: grid; grid-template-columns: 1.2fr .8fr; align-items: center;
+      min-height: 300px; padding: clamp(25px, 5vw, 52px);
+    }
+    .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; color: #c9e8d9; }
+    .hero h1 { margin: 13px 0; font-size: clamp(32px, 5vw, 54px); line-height: 1.08; letter-spacing: -.04em; }
+    .hero p { max-width: 480px; color: #e2f2e9; line-height: 1.7; margin-bottom: 22px; }
+    .hero .btn { background: white; color: var(--green-dark); }
+    .hero-art { text-align: center; font-size: clamp(90px, 14vw, 165px); filter: drop-shadow(0 15px 12px #073b2d66); }
+    .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 32px; }
+    .benefit { display: flex; align-items: center; gap: 12px; padding: 15px; background: white; border: 1px solid var(--line); border-radius: 15px; }
+    .benefit-icon { font-size: 24px; }
+    .benefit strong { display: block; font-size: 13px; }
+    .benefit small { color: var(--muted); font-size: 12px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 28px 0 16px; }
+    h2 { margin: 0; font-size: 1.45rem; }
+    .muted { color: var(--muted); }
+    .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+    .filters input, .filters select, .field {
+      border: 1px solid var(--line); background: white; border-radius: 12px;
+      padding: 12px 14px; color: var(--text); outline-color: var(--green);
+    }
+    .filters input { flex: 1; min-width: 180px; }
+    .filters select { min-width: 145px; }
+    .products { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .product { background: white; border: 1px solid var(--line); border-radius: 20px; padding: 13px; box-shadow: var(--shadow); display: flex; flex-direction: column; min-width: 0; }
+    .product-photo { height: 160px; border-radius: 14px; overflow: hidden; background: linear-gradient(135deg, #dceee5, #f5faf6); position: relative; }
+    .product-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .product-photo .fallback { display: none; width: 100%; height: 100%; place-items: center; font-size: 64px; }
+    .tag { position: absolute; top: 10px; left: 10px; background: white; color: var(--green-dark); padding: 5px 9px; border-radius: 8px; font-size: 11px; font-weight: 800; }
+    .product h3 { margin: 13px 0 5px; font-size: 15px; }
+    .product .desc { color: var(--muted); font-size: 12px; line-height: 1.5; min-height: 36px; }
+    .product-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 13px; }
+    .price { font-weight: 850; color: var(--green-dark); }
+    .unit { color: var(--muted); font-size: 11px; }
+    .small-btn { border: 0; border-radius: 10px; background: var(--mint); color: var(--green-dark); font-weight: 800; padding: 9px 11px; white-space: nowrap; }
+    .small-btn:hover { background: #d7eade; }
+    .empty { padding: 28px; text-align: center; background: white; border: 1px dashed var(--line); border-radius: 16px; color: var(--muted); grid-column: 1 / -1; }
+    .lower { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 34px 0; }
+    .panel { background: white; border: 1px solid var(--line); border-radius: 20px; padding: 22px; min-width: 0; }
+    .panel h2 { margin-bottom: 8px; }
+    .cart-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .cart-row:last-child { border-bottom: 0; }
+    .qty { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+    .qty button { border: 1px solid var(--line); background: white; border-radius: 8px; width: 29px; height: 29px; }
+    .cart-total { display: flex; justify-content: space-between; gap: 12px; font-weight: 850; padding: 16px 0; }
+    .wide { width: 100%; }
+    .chat-log { height: 185px; overflow: auto; padding: 12px; background: #f6faf7; border-radius: 14px; margin: 12px 0; }
+    .bubble { padding: 10px 12px; border-radius: 12px; margin: 7px 0; max-width: 92%; line-height: 1.5; font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .bubble.bot { background: #e3f1e9; }
+    .bubble.user { background: var(--green); color: white; margin-left: auto; }
+    .chat-form { display: flex; gap: 8px; }
+    .chat-form input { flex: 1; min-width: 0; }
+    .history-item { padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+    .history-item:last-child { border-bottom: 0; }
+    footer { padding: 28px 0 35px; text-align: center; color: var(--muted); font-size: 12px; }
+    .modal-backdrop { display: none; position: fixed; inset: 0; z-index: 10; background: #09291f99; padding: 18px; align-items: center; justify-content: center; }
+    .modal-backdrop.show { display: flex; }
+    .modal { width: min(520px, 100%); max-height: 90vh; overflow: auto; background: white; border-radius: 22px; padding: 24px; }
+    .modal-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    .modal-head h2 { margin: 0; }
+    .close { border: 0; background: #edf4ef; border-radius: 10px; padding: 7px 11px; }
+    .form-grid { display: grid; gap: 12px; margin: 18px 0; }
+    .form-grid label { display: grid; gap: 6px; font-weight: 650; font-size: 13px; }
+    .field { width: 100%; }
+    .note { background: #fff5df; color: #7c5417; border-radius: 12px; padding: 11px 13px; font-size: 12px; line-height: 1.5; }
+    @media (max-width: 900px) { .products { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 650px) {
+      .navbar { min-height: 65px; gap: 10px; flex-wrap: wrap; padding: 10px 0; }
+      .logo { font-size: 17px; }
+      .logo-icon { width: 36px; height: 36px; }
+      .search { order: 3; flex-basis: 100%; }
+      .nav-cart { margin-left: auto; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-art { display: none; }
+      .benefits { grid-template-columns: 1fr; }
+      .lower { grid-template-columns: 1fr; }
+      .product-photo { height: 130px; }
+      .product { padding: 10px; }
+      .product h3 { font-size: 14px; }
+      .product-bottom { align-items: start; flex-direction: column; }
+      .small-btn { width: 100%; }
+    }
+    @media (max-width: 360px) {
+      .products { grid-template-columns: 1fr; }
+      .product-photo { height: 180px; }
+      .product-bottom { flex-direction: row; align-items: center; }
+      .small-btn { width: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline">
+    <div class="container">
+      <span>🐟 Selamat datang di Iwak Gatul Market</span>
+      <span>Belanja mudah • Harga bersahabat</span>
+    </div>
+  </div>
+
+  <header>
+    <div class="container navbar">
+      <div class="logo"><span class="logo-icon">🐟</span><span>Iwak Gatul</span></div>
+      <label class="search">
+        <span aria-hidden="true">⌕</span>
+        <input id="search" type="search" placeholder="Cari ikan atau perlengkapan..." aria-label="Cari produk">
+      </label>
+      <button class="btn secondary nav-cart" id="cartNav">🛒 Keranjang <span id="cartCount">0</span></button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Fresh fish market</div>
+        <h1>Iwak Gatul,<br>pilihan tepat setiap hari.</h1>
+        <p>Temukan pilihan ikan gatul dan perlengkapan dengan pengalaman belanja yang mudah. Pilih produk favoritmu dan masukkan ke keranjang.</p>
+        <button class="btn" id="shopNow">Mulai belanja ↓</button>
+      </div>
+      <div class="hero-art" aria-hidden="true">🐟</div>
+    </section>
+
+    <section class="benefits" aria-label="Keunggulan toko">
+      <div class="benefit"><span class="benefit-icon">🧺</span><div><strong>Produk pilihan</strong><small>Pilihan untuk kebutuhanmu</small></div></div>
+      <div class="benefit"><span class="benefit-icon">💳</span><div><strong>Checkout praktis</strong><small>Pesan dalam beberapa langkah</small></div></div>
+      <div class="benefit"><span class="benefit-icon">📦</span><div><strong>Pesanan tercatat</strong><small>Lihat riwayat pesanan demo</small></div></div>
+    </section>
+
+    <section id="catalog">
+      <div class="section-head">
+        <div>
+          <h2>Katalog produk</h2>
+          <div class="muted">Pilih produk yang kamu butuhkan.</div>
+        </div>
+      </div>
+      <div class="filters">
+        <select id="category" aria-label="Filter kategori">
+          <option value="Semua">Semua kategori</option>
+          <option value="Ikan gatul">Ikan gatul</option>
+          <option value="Paket hemat">Paket hemat</option>
+          <option value="Perlengkapan">Perlengkapan</option>
+        </select>
+        <select id="sort" aria-label="Urutkan produk">
+          <option value="default">Urutkan: pilihan</option>
+          <option value="low">Harga terendah</option>
+          <option value="high">Harga tertinggi</option>
+          <option value="name">Nama A–Z</option>
+        </select>
+      </div>
+      <div class="products" id="products"></div>
+    </section>
+
+    <section class="lower">
+      <div class="panel" id="cartPanel">
+        <div class="section-head" style="margin-top:0">
+          <div><h2>Keranjang belanja</h2><div class="muted">Periksa pesanan sebelum checkout.</div></div>
+        </div>
+        <div id="cartItems"></div>
+        <div class="cart-total"><span>Total</span><span id="cartTotal">Rp0</span></div>
+        <button class="btn wide" id="checkoutBtn" disabled>Lanjut checkout</button>
+      </div>
+
+      <div class="panel">
+        <h2>Asisten Gatul</h2>
+        <div class="muted">Tanyakan produk atau cara memesan.</div>
+        <div class="chat-log" id="chatLog" aria-live="polite">
+          <div class="bubble bot">Halo! Saya Asisten Gatul. Saya bisa membantu mencari produk dan menjelaskan cara memesan.</div>
+        </div>
+        <form class="chat-form" id="chatForm">
+          <input class="field" id="chatInput" placeholder="Contoh: produk paling murah?" aria-label="Pesan untuk asisten" required>
+          <button class="btn" type="submit">Kirim</button>
+        </form>
+        <p class="muted" style="font-size:11px;margin-bottom:0">Asisten ini memakai aturan sederhana, belum terhubung ke AI online.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="historyPanel">
+      <div class="section-head" style="margin-top:0">
+        <div><h2>Riwayat pesanan</h2><div class="muted">Pesanan demo yang dibuat di perangkat ini.</div></div>
+        <button class="btn secondary" id="clearHistory">Hapus riwayat</button>
+      </div>
+      <div id="historyItems"></div>
+    </section>
+  </main>
+
+  <footer class="container">© <span id="year"></span> Iwak Gatul Market • Demo aplikasi penjualan</footer>
+
+  <div class="modal-backdrop" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h2 id="checkoutTitle">Checkout pesanan</h2>
+        <button class="close" id="closeModal" aria-label="Tutup">✕</button>
+      </div>
+      <form id="checkoutForm">
+        <div class="form-grid">
+          <label>Nama penerima<input class="field" id="customerName" required maxlength="80" placeholder="Nama lengkap"></label>
+          <label>Nomor telepon<input class="field" id="customerPhone" required inputmode="tel" maxlength="20" placeholder="08xxxxxxxxxx"></label>
+          <label>Alamat pengiriman<textarea class="field" id="customerAddress" required rows="3" maxlength="300" placeholder="Alamat lengkap"></textarea></label>
+          <label>Metode pembayaran
+            <select class="field" id="payment">
+              <option>Bayar saat diterima (demo)</option>
+              <option>Transfer bank (demo)</option>
+              <option>E-wallet (demo)</option>
+            </select>
+          </label>
+        </div>
+        <div class="note">Checkout ini hanya simulasi. Tidak ada pembayaran atau pengiriman sungguhan.</div>
+        <div class="cart-total"><span>Total pesanan</span><span id="modalTotal">Rp0</span></div>
+        <button class="btn wide" type="submit">Buat pesanan demo</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Ubah nama, harga, deskripsi, dan foto produk di bagian ini.
+    const products = [
+      {
+        id: 1, name: "Ikan Gatul Pilihan", category: "Ikan gatul",
+        price: 15000, unit: "paket", emoji: "🐟", tag: "Pilihan",
+        desc: "Ikan gatul pilihan untuk kebutuhan harian.",
+        image: "https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 2, name: "Gatul Ukuran Kecil", category: "Ikan gatul",
+        price: 10000, unit: "paket", emoji: "🐠", tag: "Praktis",
+        desc: "Pilihan ikan gatul ukuran kecil.",
+        image: "https://images.unsplash.com/photo-1510130387422-82bed34b37e9?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 3, name: "Gatul Ukuran Besar", category: "Ikan gatul",
+        price: 20000, unit: "paket", emoji: "🐡", tag: "Favorit",
+        desc: "Pilihan ikan gatul ukuran besar.",
+        image: "https://images.unsplash.com/photo-1498654200943-1088dd4438ae?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 4, name: "Paket Gatul Hemat", category: "Paket hemat",
+        price: 25000, unit: "paket", emoji: "📦", tag: "Hemat",
+        desc: "Paket praktis dengan harga hemat.",
+        image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 5, name: "Paket Gatul Keluarga", category: "Paket hemat",
+        price: 40000, unit: "paket", emoji: "🧺", tag: "Paket",
+        desc: "Paket untuk kebutuhan bersama.",
+        image: "https://images.unsplash.com/photo-1510130387422-82bed34b37e9?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 6, name: "Pakan Ikan", category: "Perlengkapan",
+        price: 12000, unit: "bungkus", emoji: "🥣", tag: "Perawatan",
+        desc: "Pakan ikan untuk perawatan harian.",
+        image: "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 7, name: "Wadah Ikan", category: "Perlengkapan",
+        price: 18000, unit: "buah", emoji: "🪣", tag: "Perlengkapan",
+        desc: "Wadah untuk membantu membawa ikan.",
+        image: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 8, name: "Paket Gatul Komplit", category: "Paket hemat",
+        price: 50000, unit: "paket", emoji: "🎁", tag: "Komplit",
+        desc: "Pilihan paket lengkap untuk pemula.",
+        image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=700&q=80"
+      }
+    ];
+
+    const $ = id => document.getElementById(id);
+    const money = value => new Intl.NumberFormat("id-ID", {
+      style: "currency", currency: "IDR", maximumFractionDigits: 0
+    }).format(value);
+
+    let cart = {};
+    let orders = [];
+
+    try {
+      cart = JSON.parse(localStorage.getItem("gatul-cart") || "{}") || {};
+      orders = JSON.parse(localStorage.getItem("gatul-orders") || "[]") || [];
+      if (Array.isArray(orders) === false) orders = [];
+    } catch (error) {
+      cart = {};
+      orders = [];
+    }
+
+    function saveData() {
+      try {
+        localStorage.setItem("gatul-cart", JSON.stringify(cart));
+        localStorage.setItem("gatul-orders", JSON.stringify(orders));
+      } catch (error) {
+        // Tetap dapat digunakan selama halaman masih terbuka.
+      }
+    }
+
+    function renderProducts() {
+      const query = $("search").value.trim().toLowerCase();
+      const category = $("category").value;
+      const sort = $("sort").value;
+
+      let shown = products.filter(product =>
+        (product.name + " " + product.desc).toLowerCase().includes(query) &&
+        (category === "Semua" || product.category === category)
+      );
+
+      if (sort === "low") shown.sort((a, b) => a.price - b.price);
+      if (sort === "high") shown.sort((a, b) => b.price - a.price);
+      if (sort === "name") shown.sort((a, b) => a.name.localeCompare(b.name));
+
+      if (!shown.length) {
+        $("products").innerHTML = '<div class="empty">Produk tidak ditemukan. Coba kata kunci lain.</div>';
+        return;
+      }
+
+      $("products").innerHTML = shown.map(product => `
+        <article class="product">
+          <div class="product-photo">
+            <img src="${product.image}" alt="${product.name}" loading="lazy"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+            <div class="fallback" aria-hidden="true">${product.emoji}</div>
+            <span class="tag">${product.tag}</span>
+          </div>
+          <h3>${product.name}</h3>
+          <div class="muted" style="font-size:11px">${product.category}</div>
+          <div class="desc">${product.desc}</div>
+          <div class="product-bottom">
+            <div><div class="price">${money(product.price)}</div><div class="unit">per ${product.unit}</div></div>
+            <button class="small-btn" data-add="${product.id}">+ Keranjang</button>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function getTotal() {
+      return products.reduce((total, product) =>
+        total + product.price * (Number(cart[product.id]) || 0), 0);
+    }
+
+    function renderCart() {
+      const entries = products.filter(product => Number(cart[product.id]) > 0);
+      const count = entries.reduce((sum, product) => sum + Number(cart[product.id]), 0);
+      $("cartCount").textContent = count;
+      $("cartTotal").textContent = money(getTotal());
+      $("modalTotal").textContent = money(getTotal());
+      $("checkoutBtn").disabled = entries.length === 0;
+
+      $("cartItems").innerHTML = entries.length ? entries.map(product => `
+        <div class="cart-row">
+          <div>
+            <strong>${product.name}</strong>
+            <div class="muted" style="font-size:12px">${money(product.price)} / ${product.unit}</div>
+            <div class="qty">
+              <button data-change="${product.id}" data-delta="-1" aria-label="Kurangi ${product.name}">−</button>
+              <span>${cart[product.id]}</span>
+              <button data-change="${product.id}" data-delta="1" aria-label="Tambah ${product.name}">+</button>
+            </div>
+          </div>
+          <strong>${money(product.price * cart[product.id])}</strong>
+        </div>
+      `).join("") : '<div class="empty">Keranjang masih kosong. Yuk, pilih produk!</div>';
+    }
+
+    function renderHistory() {
+      $("historyItems").innerHTML = orders.length ? [...orders].reverse().map(order => `
+        <div class="history-item">
+          <strong>${order.code}</strong> <span class="muted">• ${order.date}</span><br>
+          ${order.items.map(item => `${item.name} × ${item.qty}`).join(", ")}<br>
+          <strong>${money(order.total)}</strong> <span class="muted">— ${order.status}</span>
+        </div>
+      `).join("") : '<div class="empty" style="margin-top:14px">Belum ada pesanan.</div>';
+    }
+
+    function changeCart(id, delta) {
+      cart[id] = Math.max(0, (Number(cart[id]) || 0) + delta);
+      if (!cart[id]) delete cart[id];
+      saveData();
+      renderCart();
+    }
+
+    $("products").addEventListener("click", event => {
+      const button = event.target.closest("[data-add]");
+      if (button) changeCart(Number(button.dataset.add), 1);
+    });
+
+    $("cartItems").addEventListener("click", event => {
+      const button = event.target.closest("[data-change]");
+      if (button) changeCart(Number(button.dataset.change), Number(button.dataset.delta));
+    });
+
+    ["search", "category", "sort"].forEach(id =>
+      $(id).addEventListener("input", renderProducts)
+    );
+
+    $("shopNow").addEventListener("click", () =>
+      $("catalog").scrollIntoView({ behavior: "smooth" })
+    );
+    $("cartNav").addEventListener("click", () =>
+      $("cartPanel").scrollIntoView({ behavior: "smooth" })
+    );
+
+    const modal = $("checkoutModal");
+    $("checkoutBtn").addEventListener("click", () => {
+      if (getTotal() > 0) modal.classList.add("show");
+    });
+    $("closeModal").addEventListener("click", () => modal.classList.remove("show"));
+    modal.addEventListener("click", event => {
+      if (event.target === modal) modal.classList.remove("show");
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") modal.classList.remove("show");
+    });
+
+    $("checkoutForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const items = products.filter(product => Number(cart[product.id]) > 0)
+        .map(product => ({
+          id: product.id,
+          name: product.name,
+          qty: Number(cart[product.id]),
+          price: product.price
+        }));
+
+      if (!items.length) return;
+
+      const order = {
+        code: "GT-" + Date.now().toString().slice(-7),
+        date: new Date().toLocaleString("id-ID"),
+        name: $("customerName").value.trim(),
+        phone: $("customerPhone").value.trim(),
+        address: $("customerAddress").value.trim(),
+        payment: $("payment").value,
+        items,
+        total: getTotal(),
+        status: "Pesanan demo dibuat"
+      };
+
+      orders.push(order);
+      cart = {};
+      saveData();
+      renderCart();
+      renderHistory();
+      $("checkoutForm").reset();
+      modal.classList.remove("show");
+      alert("Pesanan demo berhasil dibuat. Kode pesanan: " + order.code);
+      $("historyPanel").scrollIntoView({ behavior: "smooth" });
+    });
+
+    $("clearHistory").addEventListener("click", () => {
+      if (!orders.length) {
+        alert("Riwayat masih kosong.");
+        return;
+      }
+      if (confirm("Hapus semua riwayat pesanan demo?")) {
+        orders = [];
+        saveData();
+        renderHistory();
+      }
+    });
+
+    function addBubble(message, type) {
+      const bubble = document.createElement("div");
+      bubble.className = "bubble " + type;
+      bubble.textContent = message;
+      $("chatLog").appendChild(bubble);
+      $("chatLog").scrollTop = $("chatLog").scrollHeight;
+    }
+
+    function assistantReply(message) {
+      const text = message.toLowerCase();
+
+      if (text.includes("murah") || text.includes("termurah")) {
+        const cheapest = [...products].sort((a, b) => a.price - b.price)[0];
+        return `Produk dengan harga terendah adalah ${cheapest.name}, ${money(cheapest.price)} per ${cheapest.unit}.`;
+      }
+      if (text.includes("paket") || text.includes("hemat")) {
+        return "Pilihan paket: Paket Gatul Hemat Rp25.000, Paket Gatul Keluarga Rp40.000, dan Paket Gatul Komplit Rp50.000. Harga ini masih contoh.";
+      }
+      if (text.includes("pesan") || text.includes("checkout") || text.includes("beli")) {
+        return "Pilih produk lalu tekan + Keranjang. Buka keranjang, tekan Lanjut checkout, isi data, lalu buat pesanan demo.";
+      }
+      if (text.includes("harga")) {
+        return "Harga produk terlihat pada katalog. Gunakan pencarian atau filter kategori untuk menemukan produk.";
+      }
+      return "Saya bisa membantu mencari produk, merekomendasikan paket, atau menjelaskan checkout. Coba tanyakan: “produk paling murah apa?”";
+    }
+
+    $("chatForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const message = $("chatInput").value.trim();
+      if (!message) return;
+      addBubble(message, "user");
+      $("chatInput").value = "";
+      addBubble(assistantReply(message), "bot");
+    });
+
+    $("year").textContent = new Date().getFullYear();
+    renderProducts();
+    renderCart();
+    renderHistory();
+  </script>
+</body>
+</html>
+
