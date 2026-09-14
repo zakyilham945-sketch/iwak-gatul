@@ -1,20 +1,20 @@
-
+ 
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iwak Gatul — Toko Ikan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dapur Gatul — Iwak Gatul, Klepon & Es Jeruk</title>
   <style>
     :root {
-      --green: #176b50;
-      --green-dark: #104b3a;
-      --mint: #eaf5ef;
-      --cream: #faf9f5;
-      --ink: #1d2924;
-      --muted: #68766f;
-      --line: #e4e9e5;
-      --orange: #ef9a43;
+      --green: #205b43;
+      --green-dark: #143e2e;
+      --green-light: #e9f2e9;
+      --cream: #fffaf1;
+      --ink: #252b25;
+      --muted: #70776e;
+      --line: #e8e5dc;
+      --orange: #f0a33b;
     }
     * { box-sizing: border-box; }
     body {
@@ -23,144 +23,168 @@
       background: var(--cream);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    button, input, select, textarea { font: inherit; }
+    button, input, textarea, select { font: inherit; }
     button { cursor: pointer; }
     .wrap { width: min(1160px, 92%); margin: auto; }
     header {
-      background: #fff;
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(255,250,241,.96);
       border-bottom: 1px solid var(--line);
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      backdrop-filter: blur(12px);
     }
     .nav {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
+      min-height: 72px; display: flex; align-items: center;
+      justify-content: space-between; gap: 16px;
     }
-    .brand { display: flex; align-items: center; gap: 10px; font-weight: 850; font-size: 20px; }
-    .brand-mark {
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 20px; }
+    .brand-icon {
       display: grid; place-items: center; width: 42px; height: 42px;
-      border-radius: 14px; color: white; background: var(--green); font-size: 23px;
+      border-radius: 14px; background: var(--green); color: white; font-size: 23px;
     }
-    .nav-right { display: flex; align-items: center; gap: 10px; }
-    .pill-btn {
-      border: 1px solid var(--line); background: #fff; color: var(--ink);
-      padding: 11px 15px; border-radius: 999px; font-weight: 700;
+    .nav-actions { display: flex; align-items: center; gap: 9px; }
+    .btn {
+      border: 1px solid var(--line); border-radius: 999px;
+      background: white; color: var(--ink); padding: 11px 16px; font-weight: 750;
     }
-    .pill-btn.primary { color: #fff; background: var(--green); border-color: var(--green); }
+    .btn-primary { background: var(--green); border-color: var(--green); color: white; }
     .hero {
-      margin: 28px auto 32px;
-      padding: clamp(24px, 5vw, 56px);
-      border-radius: 28px;
-      color: #fff;
-      background:
-        radial-gradient(circle at 83% 25%, rgba(255,255,255,.18), transparent 24%),
-        linear-gradient(115deg, #104b3a, #21785b 65%, #6eaa7f);
-      display: grid; grid-template-columns: 1.25fr .75fr; align-items: center; gap: 20px;
-      overflow: hidden;
+      margin: 26px auto 34px; min-height: 340px; overflow: hidden;
+      border-radius: 28px; color: white;
+      display: grid; grid-template-columns: 1.05fr .95fr;
+      background: var(--green-dark);
     }
-    .eyebrow { color: #c9edda; font-size: 12px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
-    h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.04; margin: 12px 0; letter-spacing: -.04em; }
-    .hero p { max-width: 510px; line-height: 1.7; color: #e3f3e9; }
-    .hero-art { text-align: center; font-size: clamp(90px, 17vw, 180px); filter: drop-shadow(0 16px 10px #0b382b55); }
-    .hero-note { display: inline-block; margin-top: 12px; padding: 9px 13px; border-radius: 999px; background: #ffffff20; font-size: 13px; }
-    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 28px 0 18px; }
-    h2 { margin: 0; font-size: clamp(23px, 3vw, 30px); letter-spacing: -.03em; }
+    .hero-copy {
+      padding: clamp(26px, 5vw, 56px);
+      display: flex; flex-direction: column; justify-content: center;
+      background: linear-gradient(120deg, #143e2e, #205b43);
+    }
+    .eyebrow {
+      color: #d6edc7; font-size: 12px; font-weight: 850;
+      letter-spacing: .15em; text-transform: uppercase;
+    }
+    h1 { font-size: clamp(34px, 5vw, 58px); line-height: 1.02; letter-spacing: -.045em; margin: 14px 0; }
+    .hero p { max-width: 460px; color: #e5eee4; line-height: 1.7; margin: 0; }
+    .hero-tag {
+      display: inline-flex; align-self: flex-start; margin-top: 22px;
+      padding: 9px 13px; border: 1px solid #ffffff45; border-radius: 999px;
+      background: #ffffff12; font-size: 13px; font-weight: 700;
+    }
+    .hero-image { min-height: 300px; position: relative; }
+    .hero-image img { width: 100%; height: 100%; min-height: 300px; object-fit: cover; display: block; }
+    .hero-image:after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(90deg, #143e2e22, transparent 35%);
+      pointer-events: none;
+    }
+    .section-head {
+      display: flex; align-items: end; justify-content: space-between;
+      gap: 14px; margin: 28px 0 18px;
+    }
+    h2 { margin: 0; font-size: clamp(24px, 3vw, 31px); letter-spacing: -.035em; }
     .muted { color: var(--muted); font-size: 14px; }
-    .tools { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
-    .tools input, .tools select {
-      min-width: 0; border: 1px solid var(--line); background: #fff;
-      border-radius: 13px; padding: 12px 14px; color: var(--ink);
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .filters input, .filters select {
+      border: 1px solid var(--line); border-radius: 13px;
+      background: white; color: var(--ink); padding: 12px 14px;
     }
-    .tools input { flex: 1; min-width: 190px; }
-    .tools select { min-width: 150px; }
-    .products { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+    .filters input { flex: 1; min-width: 190px; }
+    .products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
     .product {
-      background: #fff; border: 1px solid var(--line); border-radius: 20px;
+      background: white; border: 1px solid var(--line); border-radius: 21px;
       overflow: hidden; display: flex; flex-direction: column; min-width: 0;
-      transition: transform .18s ease, box-shadow .18s ease;
+      box-shadow: 0 5px 20px #352b1608;
     }
-    .product:hover { transform: translateY(-3px); box-shadow: 0 12px 28px #193b2810; }
-    .product-photo {
-      height: 170px; position: relative; overflow: hidden;
-      background: linear-gradient(140deg, #dbece2, #b9d4c3);
+    .photo { height: 225px; background: #e9e5d9; position: relative; overflow: hidden; }
+    .photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .35s; }
+    .product:hover .photo img { transform: scale(1.04); }
+    .photo-fallback {
+      display: none; position: absolute; inset: 0; place-items: center;
+      font-size: 80px; background: var(--green-light);
     }
-    .product-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .photo-fallback { display: none; position: absolute; inset: 0; place-items: center; font-size: 76px; }
     .tag {
-      position: absolute; top: 12px; left: 12px; background: #fff;
-      padding: 6px 10px; border-radius: 999px; font-size: 11px; font-weight: 800;
+      position: absolute; top: 13px; left: 13px; padding: 7px 11px;
+      background: #fffaf1ed; border-radius: 999px; font-size: 11px; font-weight: 850;
     }
-    .product-info { padding: 16px; display: flex; flex-direction: column; flex: 1; }
-    .product h3 { margin: 0 0 6px; font-size: 17px; }
-    .product p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
-    .price-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: auto; padding-top: 16px; }
-    .price { font-weight: 850; color: var(--green); }
+    .product-info { padding: 17px; display: flex; flex-direction: column; flex: 1; }
+    .product h3 { margin: 0 0 7px; font-size: 19px; }
+    .product p { color: var(--muted); font-size: 13px; line-height: 1.55; margin: 0; }
+    .price-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; padding-top: 18px; }
+    .price { color: var(--green); font-size: 18px; font-weight: 900; }
     .add {
-      border: 0; color: white; background: var(--green); border-radius: 11px;
-      padding: 9px 12px; font-weight: 800;
+      border: 0; border-radius: 12px; padding: 10px 13px;
+      background: var(--green); color: white; font-weight: 800;
     }
-    .empty { grid-column: 1/-1; padding: 35px; text-align: center; color: var(--muted); background: #fff; border-radius: 18px; }
-    .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 34px 0; }
-    .benefit { padding: 18px; background: #fff; border: 1px solid var(--line); border-radius: 16px; }
-    .benefit b { display: block; margin: 6px 0; }
-    .benefit span { font-size: 13px; color: var(--muted); line-height: 1.5; }
-    footer { margin-top: 40px; padding: 26px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    .empty { grid-column: 1/-1; padding: 34px; text-align: center; background: white; border-radius: 16px; color: var(--muted); }
+    .perks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 36px 0; }
+    .perk { background: white; border: 1px solid var(--line); border-radius: 17px; padding: 19px; }
+    .perk b { display: block; margin: 7px 0; }
+    .perk span { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    footer { border-top: 1px solid var(--line); padding: 25px 0; color: var(--muted); font-size: 13px; }
+
     .overlay {
-      display: none; position: fixed; inset: 0; background: #10251dcc; z-index: 30;
-      align-items: stretch; justify-content: flex-end;
+      display: none; position: fixed; inset: 0; z-index: 30;
+      background: #17251dd9; justify-content: flex-end;
     }
     .overlay.open { display: flex; }
     .drawer {
-      background: #fff; width: min(480px, 100%); height: 100%; overflow-y: auto;
-      padding: 24px; box-shadow: -15px 0 40px #0002;
+      width: min(490px, 100%); height: 100%; overflow-y: auto;
+      background: var(--cream); padding: 23px;
     }
-    .drawer-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .drawer-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
     .drawer-head h2 { font-size: 24px; }
-    .close { border: 0; background: var(--mint); border-radius: 50%; width: 40px; height: 40px; font-size: 22px; }
-    .cart-item { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .close {
+      border: 0; width: 40px; height: 40px; border-radius: 50%;
+      background: var(--green-light); color: var(--green-dark); font-size: 23px;
+    }
+    .cart-item {
+      display: grid; grid-template-columns: 1fr auto; gap: 10px;
+      padding: 14px 0; border-bottom: 1px solid var(--line);
+    }
     .cart-item strong { display: block; }
     .cart-item small { color: var(--muted); }
-    .qty { display: flex; align-items: center; gap: 8px; margin-top: 9px; }
-    .qty button { border: 1px solid var(--line); background: #fff; border-radius: 8px; width: 28px; height: 28px; }
-    .remove { border: 0; background: transparent; color: #b34d3d; font-size: 12px; margin-top: 5px; }
-    .summary { margin: 18px 0; padding: 16px; border-radius: 14px; background: var(--mint); }
-    .sumline { display: flex; justify-content: space-between; gap: 12px; margin: 6px 0; }
-    .sumline.total { border-top: 1px solid #c9dfd1; padding-top: 10px; margin-top: 12px; font-weight: 850; font-size: 18px; }
+    .qty { display: flex; align-items: center; gap: 9px; margin-top: 9px; }
+    .qty button { width: 29px; height: 29px; border: 1px solid var(--line); border-radius: 8px; background: white; }
+    .remove { border: 0; background: transparent; color: #a54836; font-size: 12px; padding: 6px 0; }
+    .summary { margin: 18px 0; padding: 16px; background: var(--green-light); border-radius: 15px; }
+    .sumline { display: flex; justify-content: space-between; gap: 12px; margin: 7px 0; }
+    .sumline.total { border-top: 1px solid #c9d9c9; padding-top: 11px; margin-top: 12px; font-weight: 900; font-size: 18px; }
     .checkout-form { display: grid; gap: 12px; }
     .checkout-form label { display: grid; gap: 6px; font-size: 13px; font-weight: 750; }
     .checkout-form input, .checkout-form textarea, .checkout-form select {
-      width: 100%; border: 1px solid var(--line); border-radius: 11px; padding: 12px;
-      background: #fff; color: var(--ink);
+      width: 100%; border: 1px solid var(--line); border-radius: 11px;
+      background: white; color: var(--ink); padding: 12px;
     }
-    .checkout-form textarea { min-height: 78px; resize: vertical; }
-    .wide { width: 100%; padding: 14px; border: 0; border-radius: 12px; background: var(--green); color: #fff; font-weight: 850; }
+    .checkout-form textarea { min-height: 76px; resize: vertical; }
+    .wide {
+      width: 100%; border: 0; border-radius: 12px; padding: 14px;
+      color: white; background: var(--green); font-weight: 850;
+    }
     .wide:disabled { opacity: .45; cursor: not-allowed; }
-    .hint { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .hint { color: var(--muted); font-size: 12px; line-height: 1.5; }
     .toast {
-      position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
-      background: #1d2924; color: #fff; padding: 12px 18px; border-radius: 999px;
-      z-index: 50; display: none; max-width: 90%; text-align: center;
+      display: none; position: fixed; z-index: 50; bottom: 20px; left: 50%;
+      transform: translateX(-50%); max-width: 90%; padding: 12px 18px;
+      background: #222c25; color: white; border-radius: 999px; text-align: center;
     }
-    @media (max-width: 900px) { .products { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 620px) {
-      .hero { grid-template-columns: 1fr; margin-top: 18px; }
-      .hero-art { display: none; }
-      .nav { min-height: 64px; }
-      .brand { font-size: 17px; }
-      .brand-mark { width: 36px; height: 36px; }
-      .nav-right .wa-label { display: none; }
+    @media (max-width: 850px) {
+      .products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .photo { height: 190px; }
+    }
+    @media (max-width: 600px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-image { min-height: 210px; }
+      .hero-image img { min-height: 210px; max-height: 250px; }
+      .hero-copy { padding: 27px; }
       .products { gap: 12px; }
-      .product-photo { height: 135px; }
+      .photo { height: 145px; }
       .product-info { padding: 12px; }
-      .product h3 { font-size: 15px; }
-      .price-row { align-items: flex-start; flex-direction: column; }
+      .product h3 { font-size: 16px; }
+      .price-row { align-items: stretch; flex-direction: column; }
       .add { width: 100%; }
-      .benefits { grid-template-columns: 1fr; }
-      .section-head { align-items: flex-start; flex-direction: column; }
+      .perks { grid-template-columns: 1fr; }
+      .brand { font-size: 17px; }
+      .brand-icon { width: 36px; height: 36px; }
+      .nav-actions .wa-label { display: none; }
     }
     @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
   </style>
@@ -168,73 +192,83 @@
 <body>
   <header>
     <div class="wrap nav">
-      <div class="brand"><span class="brand-mark">🐟</span><span>Iwak Gatul</span></div>
-      <div class="nav-right">
-        <button class="pill-btn" id="waTop">☏ <span class="wa-label">WhatsApp</span></button>
-        <button class="pill-btn primary" id="cartTop">Keranjang <span id="cartCount">0</span></button>
+      <div class="brand"><span class="brand-icon">🍃</span><span>Dapur Gatul</span></div>
+      <div class="nav-actions">
+        <button class="btn" id="waTop">☏ <span class="wa-label">WhatsApp</span></button>
+        <button class="btn btn-primary" id="cartTop">🛒 Keranjang <span id="cartCount">0</span></button>
       </div>
     </div>
   </header>
 
   <main class="wrap">
     <section class="hero">
-      <div>
-        <div class="eyebrow">Segar • Pilihan • Praktis</div>
-        <h1>Iwak Gatul,<br>langsung ke rumah.</h1>
-        <p>Pilih ikan gatul favoritmu, masukkan ke keranjang, lalu checkout. Pesanan akan diteruskan ke WhatsApp untuk konfirmasi.</p>
-        <div class="hero-note">🐟 Pilih produk · 🛒 Checkout · ☎️ Konfirmasi via WA</div>
+      <div class="hero-copy">
+        <div class="eyebrow">Rasa rumahan, bikin kangen</div>
+        <h1>Enak disantap,<br>senang dibagikan.</h1>
+        <p>Iwak gatul gurih, klepon manis legit, dan es jeruk yang menyegarkan. Pilih favoritmu dan pesan dengan mudah.</p>
+        <div class="hero-tag">🍽️ Pilihan hari ini · Pesan praktis via WhatsApp</div>
       </div>
-      <div class="hero-art" aria-hidden="true">🐠</div>
+      <div class="hero-image">
+        <img
+          src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=1200&q=85"
+          alt="Hidangan ikan yang menggugah selera"
+          onerror="this.style.display='none'">
+      </div>
     </section>
 
     <section>
       <div class="section-head">
         <div>
-          <h2>Produk pilihan</h2>
-          <div class="muted">Pilih produk yang kamu inginkan.</div>
+          <h2>Menu favorit</h2>
+          <div class="muted">Pilih menu dan masukkan ke keranjang.</div>
         </div>
         <div class="muted" id="productCount"></div>
       </div>
-      <div class="tools">
-        <input id="search" type="search" placeholder="Cari produk..." aria-label="Cari produk">
-        <select id="category" aria-label="Kategori">
-          <option value="Semua">Semua kategori</option>
-          <option value="Ikan">Ikan gatul</option>
-          <option value="Paket">Paket hemat</option>
+
+      <div class="filters">
+        <input id="search" type="search" placeholder="Cari iwak gatul, klepon, es jeruk..." aria-label="Cari menu">
+        <select id="category" aria-label="Filter kategori">
+          <option value="Semua">Semua menu</option>
+          <option value="Makanan">Makanan</option>
+          <option value="Minuman">Minuman</option>
         </select>
-        <select id="sort" aria-label="Urutkan produk">
-          <option value="default">Urutkan: rekomendasi</option>
+        <select id="sort" aria-label="Urutkan menu">
+          <option value="default">Rekomendasi</option>
           <option value="low">Harga terendah</option>
           <option value="high">Harga tertinggi</option>
         </select>
       </div>
+
       <div class="products" id="products"></div>
     </section>
 
-    <section class="benefits">
-      <div class="benefit">📦 <b>Pesanan praktis</b><span>Pilih produk dan jumlahnya langsung dari katalog.</span></div>
-      <div class="benefit">💬 <b>Konfirmasi WhatsApp</b><span>Detail pesanan disiapkan otomatis untuk dikirim ke toko.</span></div>
-      <div class="benefit">🤝 <b>Transaksi jelas</b><span>Harga akhir, pengiriman, dan pembayaran dikonfirmasi dengan penjual.</span></div>
+    <section class="perks">
+      <div class="perk">🐟 <b>Menu pilihan</b><span>Iwak gatul, jajanan tradisional, dan minuman segar.</span></div>
+      <div class="perk">🛒 <b>Checkout mudah</b><span>Atur jumlah pesanan dan isi data penerima.</span></div>
+      <div class="perk">💬 <b>Konfirmasi via WhatsApp</b><span>Ringkasan pesanan otomatis disiapkan untuk penjual.</span></div>
     </section>
   </main>
 
   <footer>
-    <div class="wrap">© <span id="year"></span> Iwak Gatul. Harga dan ketersediaan dapat berubah—silakan konfirmasi melalui WhatsApp.</div>
+    <div class="wrap">© <span id="year"></span> Dapur Gatul · Harga dan ketersediaan dikonfirmasi oleh penjual.</div>
   </footer>
 
   <div class="overlay" id="overlay" aria-hidden="true">
     <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
       <div class="drawer-head">
-        <h2 id="drawerTitle">Keranjang belanja</h2>
-        <button class="close" id="closeCart" aria-label="Tutup keranjang">×</button>
+        <h2 id="drawerTitle">Keranjang & checkout</h2>
+        <button class="close" id="closeCart" aria-label="Tutup">×</button>
       </div>
+
       <div id="cartItems"></div>
+
       <div class="summary">
         <div class="sumline"><span>Subtotal</span><strong id="subtotal">Rp0</strong></div>
-        <div class="sumline"><span>Pengiriman</span><span>Dikonfirmasi via WA</span></div>
+        <div class="sumline"><span>Ongkir</span><span>Konfirmasi via WA</span></div>
         <div class="sumline total"><span>Total sementara</span><strong id="total">Rp0</strong></div>
       </div>
-      <h3>Data checkout</h3>
+
+      <h3>Data pemesan</h3>
       <form class="checkout-form" id="checkoutForm">
         <label>Nama lengkap
           <input name="name" required maxlength="80" placeholder="Nama penerima">
@@ -243,7 +277,7 @@
           <input name="phone" required inputmode="tel" maxlength="25" placeholder="08xxxxxxxxxx">
         </label>
         <label>Alamat pengiriman
-          <textarea name="address" required maxlength="500" placeholder="Nama jalan, kelurahan, kecamatan, kota"></textarea>
+          <textarea name="address" required maxlength="500" placeholder="Alamat lengkap, kecamatan, dan kota"></textarea>
         </label>
         <label>Metode pembayaran
           <select name="payment" required>
@@ -254,10 +288,10 @@
           </select>
         </label>
         <label>Catatan (opsional)
-          <textarea name="note" maxlength="300" placeholder="Catatan untuk penjual"></textarea>
+          <textarea name="note" maxlength="300" placeholder="Contoh: es jeruk sedikit gula"></textarea>
         </label>
         <button class="wide" id="checkoutBtn" type="submit" disabled>Checkout melalui WhatsApp</button>
-        <div class="hint">Tombol checkout membuka WhatsApp dengan ringkasan pesanan. Pesanan belum dibayar atau dikonfirmasi sampai penjual membalas.</div>
+        <div class="hint">Checkout akan membuka WhatsApp dengan ringkasan pesanan. Pesanan belum dibayar atau dikonfirmasi sampai penjual membalas.</div>
       </form>
     </aside>
   </div>
@@ -267,79 +301,101 @@
     // GANTI dengan nomor WhatsApp toko: kode negara + nomor, tanpa tanda + atau spasi.
     const WHATSAPP_NUMBER = "6281234567890";
 
-    // Harga dan stok di bawah hanya contoh. Silakan ubah sesuai produk tokomu.
+    // Harga di bawah hanya contoh. Ubah sesuai harga tokomu.
     const products = [
-      { id: 1, name: "Iwak Gatul Pilihan", category: "Ikan", price: 15000, unit: "per 250 gram", desc: "Ikan gatul pilihan untuk olahan rumahan.", tag: "Pilihan toko" },
-      { id: 2, name: "Iwak Gatul Bersih", category: "Ikan", price: 22000, unit: "per 500 gram", desc: "Pilihan praktis untuk menu keluarga.", tag: "Praktis" },
-      { id: 3, name: "Paket Gatul Keluarga", category: "Paket", price: 40000, unit: "per paket", desc: "Paket ukuran keluarga, cocok untuk berbagi.", tag: "Paket hemat" },
-      { id: 4, name: "Paket Gatul Besar", category: "Paket", price: 75000, unit: "per paket", desc: "Paket ukuran besar untuk kebutuhan lebih banyak.", tag: "Ukuran besar" }
+      {
+        id: 1, name: "Iwak Gatul Goreng", category: "Makanan",
+        price: 15000, unit: "per porsi", tag: "Favorit",
+        desc: "Iwak gatul goreng dengan sajian sederhana ala rumahan.",
+        emoji: "🐟",
+        image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=85"
+      },
+      {
+        id: 2, name: "Klepon Tradisional", category: "Makanan",
+        price: 10000, unit: "per 5 buah", tag: "Manis legit",
+        desc: "Jajanan tradisional berbalut kelapa parut.",
+        emoji: "🍡",
+        image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=800&q=85"
+      },
+      {
+        id: 3, name: "Es Jeruk Segar", category: "Minuman",
+        price: 8000, unit: "per gelas", tag: "Segar",
+        desc: "Minuman jeruk dingin yang cocok menemani makan.",
+        emoji: "🍊",
+        image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=800&q=85"
+      }
     ];
 
+    const $ = id => document.getElementById(id);
     const rupiah = value => new Intl.NumberFormat("id-ID", {
       style: "currency", currency: "IDR", maximumFractionDigits: 0
     }).format(value);
 
     let cart = {};
-    const $ = id => document.getElementById(id);
 
     function renderProducts() {
       const query = $("search").value.trim().toLowerCase();
       const category = $("category").value;
-      let list = products.filter(p =>
-        (category === "Semua" || p.category === category) &&
-        (p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query))
+      let list = products.filter(product =>
+        (category === "Semua" || product.category === category) &&
+        (product.name.toLowerCase().includes(query) ||
+         product.desc.toLowerCase().includes(query))
       );
+
       if ($("sort").value === "low") list.sort((a, b) => a.price - b.price);
       if ($("sort").value === "high") list.sort((a, b) => b.price - a.price);
 
-      $("productCount").textContent = `${list.length} produk`;
-      $("products").innerHTML = list.length ? list.map(p => `
+      $("productCount").textContent = `${list.length} menu`;
+      $("products").innerHTML = list.length ? list.map(product => `
         <article class="product">
-          <div class="product-photo">
-            <img src="https://images.unsplash.com/photo-1524704654690-b56c05c78a00?auto=format&fit=crop&w=700&q=80"
-                 alt="Foto ikan untuk ${p.name}" loading="lazy"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
-            <div class="photo-fallback" aria-hidden="true">🐟</div>
-            <span class="tag">${p.tag}</span>
+          <div class="photo">
+            <img src="${product.image}" alt="${product.name}" loading="lazy"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+            <div class="photo-fallback" aria-hidden="true">${product.emoji}</div>
+            <span class="tag">${product.tag}</span>
           </div>
           <div class="product-info">
-            <h3>${p.name}</h3>
-            <p>${p.desc}</p>
-            <p style="margin-top:7px">${p.unit}</p>
+            <h3>${product.name}</h3>
+            <p>${product.desc}</p>
+            <p style="margin-top:7px">${product.unit}</p>
             <div class="price-row">
-              <span class="price">${rupiah(p.price)}</span>
-              <button class="add" data-add="${p.id}">+ Tambah</button>
+              <span class="price">${rupiah(product.price)}</span>
+              <button class="add" data-add="${product.id}">+ Tambah</button>
             </div>
           </div>
         </article>
-      `).join("") : `<div class="empty">Produk tidak ditemukan. Coba kata kunci lain.</div>`;
+      `).join("") : `<div class="empty">Menu tidak ditemukan. Coba kata kunci lain.</div>`;
     }
 
     function cartQty() {
-      return Object.values(cart).reduce((sum, qty) => sum + qty, 0);
+      return Object.values(cart).reduce((total, qty) => total + qty, 0);
     }
+
     function cartTotal() {
-      return products.reduce((sum, p) => sum + p.price * (cart[p.id] || 0), 0);
+      return products.reduce((total, product) =>
+        total + product.price * (cart[product.id] || 0), 0);
     }
+
     function renderCart() {
       $("cartCount").textContent = cartQty();
-      const items = products.filter(p => cart[p.id]);
+      const items = products.filter(product => cart[product.id]);
       $("checkoutBtn").disabled = items.length === 0;
-      $("cartItems").innerHTML = items.length ? items.map(p => `
+
+      $("cartItems").innerHTML = items.length ? items.map(product => `
         <div class="cart-item">
           <div>
-            <strong>${p.name}</strong>
-            <small>${rupiah(p.price)} · ${p.unit}</small>
+            <strong>${product.name}</strong>
+            <small>${rupiah(product.price)} · ${product.unit}</small>
             <div class="qty">
-              <button type="button" data-change="${p.id}" data-delta="-1" aria-label="Kurangi ${p.name}">−</button>
-              <span>${cart[p.id]}</span>
-              <button type="button" data-change="${p.id}" data-delta="1" aria-label="Tambah ${p.name}">+</button>
+              <button type="button" data-change="${product.id}" data-delta="-1" aria-label="Kurangi ${product.name}">−</button>
+              <span>${cart[product.id]}</span>
+              <button type="button" data-change="${product.id}" data-delta="1" aria-label="Tambah ${product.name}">+</button>
             </div>
-            <button class="remove" type="button" data-remove="${p.id}">Hapus</button>
+            <button class="remove" type="button" data-remove="${product.id}">Hapus</button>
           </div>
-          <strong>${rupiah(p.price * cart[p.id])}</strong>
+          <strong>${rupiah(product.price * cart[product.id])}</strong>
         </div>
-      `).join("") : `<div class="empty">Keranjang masih kosong.<br>Tambahkan produk terlebih dahulu.</div>`;
+      `).join("") : `<div class="empty">Keranjang masih kosong.<br>Tambahkan menu terlebih dahulu.</div>`;
 
       $("subtotal").textContent = rupiah(cartTotal());
       $("total").textContent = rupiah(cartTotal());
@@ -351,25 +407,32 @@
       document.body.style.overflow = "hidden";
       $("closeCart").focus();
     }
+
     function closeCart() {
       $("overlay").classList.remove("open");
       $("overlay").setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
       $("cartTop").focus();
     }
+
     function toast(message) {
       $("toast").textContent = message;
       $("toast").style.display = "block";
       clearTimeout(toast.timer);
-      toast.timer = setTimeout(() => $("toast").style.display = "none", 2500);
+      toast.timer = setTimeout(() => $("toast").style.display = "none", 2800);
     }
+
     function openWhatsApp(message) {
       const number = WHATSAPP_NUMBER.replace(/\D/g, "");
       if (!number || number === "6281234567890") {
-        toast("Ganti WHATSAPP_NUMBER dengan nomor toko terlebih dahulu.");
+        toast("Ganti WHATSAPP_NUMBER dengan nomor WhatsApp toko terlebih dahulu.");
         return;
       }
-      window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`, "_blank", "noopener");
+      window.open(
+        `https://wa.me/${number}?text=${encodeURIComponent(message)}`,
+        "_blank",
+        "noopener"
+      );
     }
 
     $("products").addEventListener("click", event => {
@@ -378,12 +441,13 @@
       const id = Number(button.dataset.add);
       cart[id] = (cart[id] || 0) + 1;
       renderCart();
-      toast("Produk ditambahkan ke keranjang.");
+      toast("Menu ditambahkan ke keranjang.");
     });
 
     $("cartItems").addEventListener("click", event => {
       const change = event.target.closest("[data-change]");
       const remove = event.target.closest("[data-remove]");
+
       if (change) {
         const id = Number(change.dataset.change);
         cart[id] = (cart[id] || 0) + Number(change.dataset.delta);
@@ -393,9 +457,10 @@
       renderCart();
     });
 
-    ["search", "category", "sort"].forEach(id => $(id).addEventListener(
-      id === "search" ? "input" : "change", renderProducts
-    ));
+    ["search", "category", "sort"].forEach(id => {
+      $(id).addEventListener(id === "search" ? "input" : "change", renderProducts);
+    });
+
     $("cartTop").addEventListener("click", openCart);
     $("closeCart").addEventListener("click", closeCart);
     $("overlay").addEventListener("click", event => {
@@ -404,8 +469,9 @@
     document.addEventListener("keydown", event => {
       if (event.key === "Escape" && $("overlay").classList.contains("open")) closeCart();
     });
+
     $("waTop").addEventListener("click", () => {
-      openWhatsApp("Halo Iwak Gatul, saya ingin bertanya tentang produk dan ketersediaannya.");
+      openWhatsApp("Halo Dapur Gatul, saya ingin bertanya tentang menu dan ketersediaannya.");
     });
 
     $("checkoutForm").addEventListener("submit", event => {
@@ -419,14 +485,16 @@
       const payment = String(form.get("payment") || "").trim();
       const note = String(form.get("note") || "").trim();
 
-      const orderLines = products
-        .filter(p => cart[p.id])
-        .map(p => `• ${p.name} (${cart[p.id]} × ${rupiah(p.price)}) = ${rupiah(p.price * cart[p.id])}`);
+      const lines = products
+        .filter(product => cart[product.id])
+        .map(product =>
+          `• ${product.name} (${cart[product.id]} × ${rupiah(product.price)}) = ${rupiah(product.price * cart[product.id])}`
+        );
 
       const message = [
-        "Halo Iwak Gatul, saya ingin checkout pesanan:",
+        "Halo Dapur Gatul, saya ingin memesan:",
         "",
-        ...orderLines,
+        ...lines,
         "",
         `Subtotal: ${rupiah(cartTotal())}`,
         "Ongkir: mohon konfirmasi",
@@ -438,7 +506,7 @@
         `Pembayaran: ${payment}`,
         `Catatan: ${note || "-"}`,
         "",
-        "Mohon konfirmasi ketersediaan, ongkir, dan total pembayaran. Terima kasih."
+        "Mohon konfirmasi ketersediaan menu, ongkir, dan total pembayaran. Terima kasih."
       ].join("\n");
 
       openWhatsApp(message);
@@ -450,3 +518,4 @@
   </script>
 </body>
 </html>
+          
